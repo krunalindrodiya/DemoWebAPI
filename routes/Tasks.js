@@ -41,6 +41,33 @@ router.post('/addUser', function (req, res, next) {
         }
     });
 });
+// router.delete('/:id',function(req,res,next){  req.params.id
+router.delete('/deleteUser/:username', function(req,res, next){
+    if(req.params.username){
+        webApi.removeUser(req.params.username, function(err, results){
+            if(err){
+                var message = Error(err).message;
+                console.log("message="+message)
+                var code = 500;
+                res.statusCode = code;
+                res.json(errorObj);
+            }else{
+                // var json = {
+                //     "message": "Record delete successfully"
+                // }
+    
+                res.json(results);
+            }
+        });
+    }else{
+        var error={
+            "message":"Required parameter are not pass."
+        };
+        res.statusCode=400;
+        res.json(error);
+    }
+});
+
 
 /*
 router.get('/:id?',function(req,res,next){

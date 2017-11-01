@@ -24,6 +24,27 @@ var Task = {
         });
     },
 
+    removeUser: function (username, callback) {
+
+        db.query("delete from tblUsers where username=?", [username], function (err, result) {
+            if (err) {
+                callback(err, null);
+            } else {
+                var affectedRow = result.affectedRows;
+                var message = {
+                    "message": "Record deleted succefully."
+                }
+                if (affectedRow <= 0) {
+                    message["message"] = "No record found to delete record.";
+                }
+
+                callback(null, message);
+            }
+        });
+
+        // return db.query("delete from tblUsers where username=?",[username],callback);
+    }
+
 };
 
 module.exports = Task;
